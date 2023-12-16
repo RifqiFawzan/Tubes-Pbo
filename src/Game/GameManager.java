@@ -104,5 +104,55 @@ public class GameManager {
                 game.lArrPapan[9 - posisiP2 / 10][a2].setIcon(game.PapanP2[9 - posisiP2 / 10][a2]);
             }
         }
+
+        if (giliran == 2) {
+            if (game.cekPlayer2 / 10 % 2 == 0) {
+                s1 = 0;
+                s2 = game.cekPlayer2 % 10 - 1;
+            } else {
+                s1 = 9;
+                s2 = 10 - game.cekPlayer2 % 10;
+            }
+
+            if (game.cekPlayer1 == game.cekPlayer2) {
+                if (game.cekPlayer2 <= 10) {
+                    game.lArrPapan[9][game.cekPlayer2 - 1].setIcon(game.PapanP1[9][game.cekPlayer2 - 1]);
+                } else if (game.cekPlayer2 % 10 == 0) {
+                    game.lArrPapan[10 - game.cekPlayer2 / 10][s1].setIcon(game.PapanP1[10 - game.cekPlayer2 / 10][s1]);
+                } else {
+                    game.lArrPapan[9 - game.cekPlayer2 / 10][s2].setIcon(game.PapanP1[9 - game.cekPlayer2 / 10][s2]);
+                }
+            } else if (game.cekPlayer2 <= 10) {
+                game.lArrPapan[9][game.cekPlayer2 - 1].setIcon(game.PapanKosong[9][game.cekPlayer2 - 1]);
+            } else if (game.cekPlayer2 % 10 == 0) {
+                game.lArrPapan[10 - game.cekPlayer2 / 10][s1].setIcon(game.PapanKosong[10 - game.cekPlayer2 / 10][s1]);
+            } else {
+                game.lArrPapan[9 - game.cekPlayer2 / 10][s2].setIcon(game.PapanKosong[9 - game.cekPlayer2 / 10][s2]);
+            }
+
+            if (posisiP2 / 10 % 2 == 0) {
+                a1 = 0;
+                a2 = posisiP2 % 10 - 1;
+            } else {
+                a1 = 9;
+                a2 = 10 - posisiP2 % 10;
+            }
+
+            if (posisiP1 == posisiP2) {
+                if (posisiP1 <= 10) {
+                    game.lArrPapan[9][posisiP2 - 1].setIcon(game.PapanP1P2[9][posisiP2 - 1]);
+                } else if (posisiP2 % 10 == 0) {
+                    game.lArrPapan[10 - posisiP2 / 10][a1].setIcon(game.PapanP1P2[10 - posisiP2 / 10][a1]);
+                } else {
+                    game.lArrPapan[9 - posisiP2 / 10][a2].setIcon(game.PapanP1P2[9 - posisiP2 / 10][a2]);
+                }
+            } else if (posisiP2 <= 10) {
+                game.lArrPapan[9][posisiP2 - 1].setIcon(game.PapanP2[9][posisiP2 - 1]);
+            } else if (posisiP2 % 10 == 0) {
+                game.lArrPapan[10 - posisiP2 / 10][a1].setIcon(game.PapanP2[10 - posisiP2 / 10][a1]);
+            } else {
+                game.lArrPapan[9 - posisiP2 / 10][a2].setIcon(game.PapanP2[9 - posisiP2 / 10][a2]);
+            }
+        }
     }
 }

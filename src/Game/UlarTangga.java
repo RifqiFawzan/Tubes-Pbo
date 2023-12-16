@@ -208,4 +208,17 @@ public class UlarTangga extends JFrame implements ActionListener, GameInterface 
       this.setLocationRelativeTo((Component) null);
       this.setDefaultCloseOperation(3);
    }
+
+   @Override
+   public void jalan(int posisiP1, int posisiP2, int giliran) {
+      GameManager.Jalan(this, posisiP1, posisiP2, giliran);
+   }
+   
+   public static int getCekPlayer1() {
+      return cekPlayer1;
+   }
+   
+   public static int getCekPlayer2() {
+      return cekPlayer2;
+   }
 }
