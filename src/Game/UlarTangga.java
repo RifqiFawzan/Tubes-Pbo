@@ -221,4 +221,162 @@ public class UlarTangga extends JFrame implements ActionListener, GameInterface 
    public static int getCekPlayer2() {
       return cekPlayer2;
    }
+
+   public void actionPerformed(ActionEvent e) {
+      if (e.getSource() == this.menuNew) {
+         temp = true;
+         this.nP1 = JOptionPane.showInputDialog((Component)null, "Masukkan nama Player 1 :");
+         this.nP2 = JOptionPane.showInputDialog((Component)null, "Masukkan nama Player 2 :");
+         String N1;
+         String N2;
+         if (!this.nP1.equals(" ") && !this.nP2.equals(" ")) {
+            if (!this.nP1.equals("") && !this.nP2.equals("")) {
+               if (this.nP1.equals(this.nP2)) {
+                  JOptionPane.showMessageDialog(this, "Nama Player 1 dan Player 2 Tidak Boleh Sama");
+                  N1 = "";
+                  N2 = "";
+                  new UlarTangga(0, N1, N2, 1, 1, false, 1);
+               } else if (!this.nP1.equals(this.nP2)) {
+                  this.buttonGo.setEnabled(true);
+                  this.buttonGo.setVisible(true);
+                  this.buttonStop.setVisible(false);
+                  this.buttonStop.setEnabled(false);
+                  this.turn = 1;
+                  this.posPlayer1 = 1;
+                  this.posPlayer2 = 1;
+                  new UlarTangga(1, this.nP1, this.nP2, this.posPlayer1, this.posPlayer2, true, this.turn);
+               }
+            } else {
+               JOptionPane.showMessageDialog(this, "Nama Player Harus Diisi Terlebih Dahulu ");
+               N1 = "";
+               N2 = "";
+               new UlarTangga(0, N1, N2, 1, 1, false, 1);
+            }
+         } else {
+            JOptionPane.showMessageDialog(this, "Nama Player Harus Diisi Terlebih Dahulu");
+            N1 = "";
+            N2 = "";
+            new UlarTangga(0, N1, N2, 1, 1, false, 1);
+         }
+      } else if (e.getSource() == this.menuHelp) {
+         JOptionPane.showMessageDialog((Component)null, "1. Klik Menu File");
+         JOptionPane.showMessageDialog((Component)null, "2. Kemudian pilih 2 Player");
+         JOptionPane.showMessageDialog((Component)null, "3. Lalu isi Nama dan kocok dadu");
+      }else if (e.getSource() == buttonLeaderboard) {
+         DatabaseHandler.showLeaderboard();
+         new Leaderboard();
+      }else if (e.getSource() == this.menuExit) {
+         System.exit(0);
+      } else if (e.getSource() == this.buttonGo) {
+         this.buttonStop.setVisible(true);
+         this.buttonStop.setEnabled(true);
+         this.buttonGo.setEnabled(false);
+         this.buttonGo.setVisible(false);
+         temp = false;
+     
+         UlarTanggaThread runnable = new UlarTanggaThread(); //MULTITHREAD
+         Thread thread = new Thread(runnable);
+         thread.start();
+      } else if (e.getSource() == this.buttonStop) {
+         temp = true;
+         cekPlayer1 = this.posPlayer1;
+         cekPlayer2 = this.posPlayer2;
+         String namaPemenang = ""; // Tambahkan variabel untuk menyimpan nama pemain yang menang
+         if (this.turn == 1) {
+            this.posPlayer1 = this.posPlayer1 + dc1 + dc2 + 2;
+            if (this.posPlayer1 > 100) {
+               this.posPlayer1 = 100 - (this.posPlayer1 - 100);
+            } else if (this.posPlayer1 == 100) {
+               this.lArrPapan[0][0].setIcon(this.PapanP1[0][0]);
+               namaPemenang = this.nP1; // Simpan nama pemain yang menang
+               JOptionPane.showMessageDialog(this, "Horeeee! " + namaPemenang + " menang yeayyyyy!");
+            }
+         } else if (this.turn == 2) {
+            this.posPlayer2 = this.posPlayer2 + dc1 + dc2 + 2;
+            if (this.posPlayer2 > 100) {
+               this.posPlayer2 = 100 - (this.posPlayer2 - 100);
+            } else if (this.posPlayer2 == 100) {
+               this.lArrPapan[0][0].setIcon(this.PapanP2[0][0]);
+               namaPemenang = this.nP2; // Simpan nama pemain yang menang
+               JOptionPane.showMessageDialog(this, "Horeeee! " + namaPemenang + " menang yeayyyyy!");
+            }
+         }
+         if (this.posPlayer1 == 100 || this.posPlayer2 == 100) {
+            if (this.turn == 1) {
+               DatabaseHandler.simpanDataPemain(this.nP1, 1); // Menyimpan data pemain 1
+            } else {
+               DatabaseHandler.simpanDataPemain(this.nP2, 1); // Menyimpan data pemain 2
+            }
+        }
+        //buat ular ular 
+         switch(this.posPlayer1) {
+         case 3:
+            this.posPlayer1 = 23;
+            break;
+         case 33:
+            this.posPlayer1 = 15;
+            break;
+         case 50:
+            this.posPlayer1 = 69;
+            break;
+         case 59:
+            this.posPlayer1 = 39;
+            break;
+         case 65:
+            this.posPlayer1 = 95;
+            break;
+         case 89:
+            this.posPlayer1 = 67;
+            break;
+         case 98:
+            this.posPlayer1 = 56;
+         }
+
+         switch(this.posPlayer2) {
+         case 3:
+            this.posPlayer2 = 23;
+            break;
+         case 33:
+            this.posPlayer2 = 15;
+            break;
+         case 50:
+            this.posPlayer2 = 69;
+            break;
+         case 59:
+            this.posPlayer2 = 39;
+            break;
+         case 65:
+            this.posPlayer2 = 95;
+            break;
+         case 89:
+            this.posPlayer2 = 67;
+            break;
+         case 98:
+            this.posPlayer2 = 56;
+         }
+
+         this.jalan(this.posPlayer1, this.posPlayer2, this.turn);
+         if (this.turn == 1) {
+            this.h1.setIcon(this.icon2);
+            this.h2.setIcon(this.icon1);
+            this.turn = 2;
+         } else {
+            this.h1.setIcon(this.icon1);
+            this.h2.setIcon(this.icon2);
+            this.turn = 1;
+         }
+
+         if (this.posPlayer1 != 100 && this.posPlayer2 != 100) {
+            this.buttonGo.setEnabled(true);
+            this.buttonGo.setVisible(true);
+            this.buttonStop.setVisible(false);
+            this.buttonStop.setEnabled(false);
+         } else {
+            this.buttonStop.setVisible(false);
+            this.buttonStop.setEnabled(false);
+            this.buttonGo.setVisible(true);
+            this.buttonGo.setEnabled(false);
+         }
+      }
+   }
 }
